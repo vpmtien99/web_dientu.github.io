@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@if (ViewBag.Err != null)
+{
+    <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+        alert("@ViewBag.Err");
+    }
+    </script>
+}
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="index.html">Home</a>
+        <span class="breadcrumb-item active">Khuyến Mãi</span>
+    </div>
+</div>
+<section class="recomended-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Chương Trình Khuyến Mãi</h2>
+            <hr>
+        </div>
+        <div class="row">
+            @{
+                var list = Session["KhuyenMai"] as List<WebApplication30.Models.KhuyenMai>;
+            }
+            @foreach (var item in list)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="item">
+                        <img style="width: 225px;height: 250px;display: block;margin-left: auto; margin-right: auto;" src="~/UploadedFiles/@item.AnhKM" alt="img">
+                        <h3>@item.TenKM</h3>
+                        <h6><span class="price">Phần Trăm Khuyến Mãi</span> : <a href="#">@item.PhanTram%</a></h6>
+                        <h6><span class="price">Thời Gian</span> : <a href="#">@item.NgayBD.ToShortDateString() - @item.NgayKT.ToShortDateString()</a></h6>
+                        <div class="hover">
+                            <a href="/KhuyenMaiHome/MoHinh/@item.MaKhuyenMai">
+                                <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+
+        </div>
+    </div>
+
+</section>
+
+
+

@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>🧐 Điện Máy Đỏ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#03a6f3">
+    <link rel="stylesheet" href="~/Home_Assets/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Home_Assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Home_Assets/css/styles.css">
+
+
+
+
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" type="text/css" href="~/Home_Assets/assets/index.css">
+    <!--<link rel="stylesheet" type="text/css" href="./assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/owl.theme.default.min.css">-->
+    <!--<script type="text/javascript" src="C:\Users\dell5117\Desktop\jquery\jquery-3.4.1.min.js"></script>-->
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('.has-sub').click(function () {
+                $(this).toggleClass('tap');
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-top">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-md-3"><a href="#" class="web-url">www.dienmaydo.com</a></div>
+                    <div class="col-md-6">
+                        <h5>Miễn Phí Giao hàng đối với đơn trên 1.000.000 và miễn phí lắp đặt</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="ph-number">Điện Thoại : 800 1234 5678</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-menu">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="~/Home/Index"><img style="width:340px;" src="~/Home_Assets/images/online-shop-1-01-.jpg" alt="logo"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="navbar-item">
+                                <a href="~/ThuongHieu/Index" class="nav-link">Thương Hiệu</a>
+                            </li>
+                            <li class="navbar-item ">
+                                <a href="~/KhuyenMaiHome/Index" class="nav-link">Khuyến Mãi</a>
+                            </li>
+                         
+
+                            @if (Session["TaiKhoan"] == null)
+                            {
+                                <li class="navbar-item">
+                                    <a href="~/DangNhap/Index" class="nav-link">Đăng Nhập</a>
+                                </li>
+                            }
+                            else
+                            {
+                                var tk = Session["TaiKhoan"] as WebApplication30.Models.KhachHang;
+
+                                <li class="navbar-item">
+                                    <a href="~/Account/Index" class="nav-link">Tài Khoản</a>
+                                </li>
+                                if (tk.LoaiTK == "Admin")
+                                {
+                                    <li class="navbar-item">
+                                        <a href="~/Admin/Index" class="nav-link">Admin</a>
+                                    </li>
+                                }
+                                <li class="navbar-item">
+                                    <a href="~/DangNhap/DangXuat" class="nav-link">Đăng Xuất</a>
+                                </li>
+                            }
+                        </ul>
+                        <div class="cart my-2 my-lg-0">
+                            <span>
+                                <a href="~/GioHang/Index"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+                            </span>
+                            @if (Session["TaiKhoan"] != null)
+                            {
+                                int sl = 0;
+                                var tk = Session["TaiKhoan"] as WebApplication30.Models.KhachHang;
+                                var db = new WebApplication30.DAO.HoaDonDAO();
+                                var hd = db.FindHD(tk.MaKH);
+                                if (hd != null)
+                                {
+
+                                    var list = db.GetListCTHD(hd.MaHD);
+                                    if (list != null)
+                                    {
+                                        foreach (var item in list)
+                                        {
+                                            sl = sl + item.SoLuong;
+                                        }
+                                    }
+                                }
+                                <span class="quntity">@sl</span>
+                            }
+                            else
+                            {
+                                <span class="quntity">0</span>
+                            }
+                            
+                        </div>
+
+                        <form method="post" action="~/Home/TimKiem" class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" name="tenMH" placeholder="Tìm kiếm." aria-label="Search">
+                            <span>
+                                <button type="submit" style="border-radius:4px;font-size:12px;">Tìm</button>
+                                @*<a onclick="this.form.submit()"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>*@
+                            </span>
+                            @*<a onclick="this.form.submit()"><span class="fa fa-search"></span></a>*@
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+  
+
+
+    @RenderBody();
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="address">
+                    <h3>Địa Chỉ</h3>
+                    <h6>
+                        Địa chỉ:828 Sư Vạn Hạnh, Phường 13, Quận 10, Thành phố Hồ Chí Minh.
+                    </h6>
+                    <h6>Điện Thoại : 800 1234 5678</h6>
+                    <h6>Email : dienmaydo2020@gmail.com</h6>
+                </div>
+                <div class="timing">
+                    <h3>Ngày Làm Việc</h3>
+                    <h6>Thứ 2 - Thứ 6: 7am - 10pm</h6>
+                    <h6>​​Thứ 7: 8am - 10pm</h6>
+                    <h6>​Chủ Nhật: 8am - 11pm</h6>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="navigation">
+                    <h3>Hướng Dẫn</h3>
+                    <ul>
+                        <li><a href="index.html">Trang Chủ</a></li>
+                        <li><a href="about.html">Về Chúng Tôi</a></li>
+                        <li><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                        <li><a href="terms-conditions.html">Điều kiện</a></li>
+                        <li><a href="products.html">Sản Phẩm</a></li>
+                    </ul>
+                </div>
+                <div class="navigation">
+                    <h3>Trợ giúp</h3>
+                    <ul>
+                        <li><a href="">Giao Hàng và Trả Hàng</a></li>
+                        <li><a href="privacy-policy.html">Riêng tư</a></li>
+                        <li><a href="faq.html">FAQ’s</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form">
+                    <h3>Liên lạc nhanh với chúng tôi</h3>
+                    <h6>
+                        Chúng tôi hiện đang cung cấp một số giảm giá tốt
+                        Hãy Chọn sản phẩm rồi đến cửa hàng xem thêm nhé .....
+                    </h6>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input placeholder="Họ Và Tên" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" placeholder="Email" required>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea placeholder="Lời Nhắn"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn black">Đồng ý, Gửi</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var mapDiv = document.getElementById('map');
+            var map = new google.maps.Map(mapDiv, {
+                center: { lat: 44.540, lng: -78.546 },
+                zoom: 8
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+    <div class="copy-right">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>(C) 2020. THƯƠNG MẠI ĐIỆN TỬ</h5>
+                </div>
+                <div class="col-md-6">
+                    <div class="share align-middle">
+                        <span class="fb"><i class="fa fa-facebook-official"></i></span>
+                        <span class="instagram"><i class="fa fa-instagram"></i></span>
+                        <span class="twitter"><i class="fa fa-twitter"></i></span>
+                        <span class="pinterest"><i class="fa fa-pinterest"></i></span>
+                        <span class="google"><i class="fa fa-google-plus"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+    <script src="~/Home_Assets/js/jquery.min.js"></script>
+    <script src="~/Home_Assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Home_Assets/js/owl.carousel.min.js"></script>
+    <script src="~/Home_Assets/js/custom.js"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="owl.carousel.min.js"></script>-->
+    <script type="text/javascript">
+        $('#brand-oc').owlCarousel({
+            autoplay: false,
+            autoplayHoverPause: true,
+            items: 8,
+            nav: true,
+            dots: true,
+            loop: true,
+        });
+        $('#bookslide1').owlCarousel({
+            autoplay: false,
+            autoplayHoverPause: true,
+            items: 4,
+            nav: true,
+            dots: true,
+            loop: true,
+
+        });
+        $('#bookslide2').owlCarousel({
+            autoplay: false,
+            autoplayHoverPause: true,
+            items: 4,
+            nav: true,
+            dots: true,
+            loop: true,
+
+        });
+        $('#bookslide').owlCarousel({
+            autoplay: false,
+            autoplayHoverPause: true,
+            items: 4,
+            nav: true,
+            dots: true,
+            loop: true,
+
+        });
+    </script>
+</body>
+
+</html>

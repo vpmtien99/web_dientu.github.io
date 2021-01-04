@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="~/Home/Index">Trang chủ</a>
+        <span class="breadcrumb-item active">Đăng nhập</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <h1>Tài khoản của tôi / Đăng nhập</h1>
+        <p> </p>
+        <div class="form">
+            <form action="~/DangNhap/Index" method="post" enctype="multipart/form-data">
+                @if (ViewBag.Err != null)
+                {
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h5 style="color:red;">@ViewBag.Err</h5>
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-5">
+                        <input name="username" placeholder="Nhập email" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-5">
+                        <input name="password" type="password" placeholder="Nhập mật khẩu" required>
+                        <span class="required-star">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="col-md-5">
+                        </div>
+                        <div class="col-md-5">
+                        </div>
+                        <button type="submit" class="btn black">Đăng nhập</button>
+                        <h5>Chưa có tài khoản ? <a href="~/DangKy/Index">Đăng ký tại đây</a></h5>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

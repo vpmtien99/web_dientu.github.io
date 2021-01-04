@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="index.html">Giỏ Hàng</a>
+        <span class="breadcrumb-item active">Thanh Toán</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+
+        <h1>Thông Tin Thanh Toán</h1>
+       
+        <div class="form">
+            <form method="post" action="~/ThanhToan/Index" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="tenngnhan" placeholder="Enter Tên Người Nhận" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="diachi" placeholder="Enter Địa Chỉ" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" name="sdt" placeholder="Enter SĐT" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <select name="thanhtoan">
+                            <option value="pp">Paypal</option>
+                            <option selected value="tt">Giao trực tiếp</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <button type="submit" class="btn black">Thanh Toán</button>
+                        @*<button type="button" onclick="location.href='@Url.Action("Index", "Paypal")'" class="btn black">Thanh Toán PayPal</button>*@
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

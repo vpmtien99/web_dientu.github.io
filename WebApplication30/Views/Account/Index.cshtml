@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@if (ViewBag.Err != null)
+{
+    <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+        alert(decodeURIComponent("@ViewBag.Err"));
+    }
+    </script>
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="~/Home/Index">Trang chủ</a>
+        <span class="breadcrumb-item active">Thông Tin Cá Nhân</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <h1>Tài Khoản của tôi</h1>
+        <p>
+            Hãy chỉnh sửa bất kỳ thông tin chi tiết nào bên dưới để tài khoản của bạn luôn được cập nhật.
+            Chúng tôi thu thập ngày sinh nhằm tuân thủ Chính sách Bảo mật. Hơn thế bạn sẽ nhận được một món quà bất ngờ từ chúng tôi trong ngày sinh nhật của bạn!
+            .
+        </p>
+        <div class="form">
+            @{ 
+                var tk = Session["TaiKhoan"] as WebApplication30.Models.KhachHang;
+            }
+            <form action="~/Account/Index" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" name="id" hidden value="@tk.MaKH" readonly/>
+                        <input type="email" placeholder="Enter User Name" name="email" value="@tk.Username" readonly>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="password" placeholder="Mật Khẩu Hiện Tại" name="password" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="password" placeholder="Password" name="newpassword" >
+                    </div>
+                    <div class="col-md-3">
+                        <input type="password" placeholder="Repeat Password" name="repassword" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" placeholder="Enter Họ" name="ho" value="@tk.Ho" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" placeholder="Enter Tên" value="@tk.Ten" name="ten" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    @{ 
+                        string dateValue = tk.NgaySinh.Year + "-" + tk.NgaySinh.Month + "-" + tk.NgaySinh.Day;
+                        if (tk.NgaySinh.Month < 10 && tk.NgaySinh.Day >= 10)
+                        {
+                            dateValue = tk.NgaySinh.Year + "-0" + tk.NgaySinh.Month + "-" + tk.NgaySinh.Day;
+
+                        }
+                        else if (tk.NgaySinh.Day < 10 && tk.NgaySinh.Month >= 10)
+                        {
+                            dateValue = tk.NgaySinh.Year + "-" + tk.NgaySinh.Month + "-0" + tk.NgaySinh.Day;
+                        }
+                        else if (tk.NgaySinh.Month < 10 && tk.NgaySinh.Day < 10)
+                        {
+                            dateValue = tk.NgaySinh.Year + "-0" + tk.NgaySinh.Month + "-0" + tk.NgaySinh.Day;
+                        }
+                    }
+                    <div class="col-md-3">
+                        <input type="date" name="ngaysinh" value="@dateValue" placeholder="Repeat Password" required>
+                        <span class="required-star">*</span>
+
+                    </div>
+                    <div class="col-md-3">
+                        <select name="gioitinh">
+                            @if (tk.GioiTinh == true)
+                            {
+                                <option value="0" selected>Nam</option>
+                                <option value="1">Nữ</option>
+                            }
+                            else
+                            {
+                                <option value="0" >Nam</option>
+                                <option value="1" selected>Nữ</option>
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <button type="submit" class="btn black">Cập nhật</button>
+                        <h5><a href="~/Account/LichSuMuaHang/">Lịch Sử Mua Hàng</a></h5>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

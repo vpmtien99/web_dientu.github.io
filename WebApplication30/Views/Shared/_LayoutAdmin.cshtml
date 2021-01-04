@@ -1,0 +1,183 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Điện Máy Đỏ</title>
+  
+
+
+
+
+    <!-- Icons-->
+    <link href="~/Admin_Assets/css/coreui-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.3.1/css/flag-icon.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <!-- Main styles for this application-->
+    <link href="~/Admin_Assets/css/style.css" rel="stylesheet">
+    <link href="~/Admin_Assets/css/pace.min.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics-->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        // Shared ID
+        gtag('config', 'UA-118965717-3');
+        // Bootstrap ID
+        gtag('config', 'UA-118965717-5');
+    </script>
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+    <header class="app-header navbar">
+        <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img class="navbar-brand-full" src="~/Home_Assets/images/online-shop-1-01-.jpg" width="89" height="25" alt="CoreUI Logo">
+            <img class="navbar-brand-minimized" src="~/Admin_Assets/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+        </a>
+        <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="nav navbar-nav d-md-down-none">
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <img class="img-avatar" src="~/Admin_Assets/img/avatars/admin.png" alt="admin@bootstrapmaster.com">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header text-center">
+                        <strong>Account</strong>
+                    </div>
+                    <a class="dropdown-item" href="~/Account/Index">
+                        <i class="fa fa-user"></i> Thông Tin
+                    </a>
+                    <a class="dropdown-item" href="~/DangNhap/DangXuat">
+                        <i class="fa fa-lock"></i> Đăng Xuất
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a>Xin chào Admin</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto"></ul>
+
+    </header>
+    <div class="app-body">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Index">
+                            <i class="nav-icon icon-home"></i> Trang Chủ
+                        </a>
+                    </li>
+                    <li class="nav-title">Dữ Liệu</li>
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="nav-icon icon-people"></i> Tài Khoản
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Admin/Index">
+                                    <i class="nav-icon icon-user-following"></i> Admin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/KhachHang/Index">
+                                    <i class="nav-icon icon-user"></i> Khách Hàng
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Loai/Index">
+                            <i class="nav-icon icon-layers"></i> Loại Hàng
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/NSX/Index">
+                            <i class="nav-icon icon-briefcase"></i> Nhà Sản Xuất
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/KhuyenMai/Index">
+                            <i class="nav-icon icon-present"></i> Khuyến Mãi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Kinh/Index">
+                            <i class="nav-icon icon-puzzle"></i> Sản Phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/HoaDon/Index">
+                            <i class="nav-icon icon-wallet"></i> Đơn hàng
+                        </a>
+                    </li>
+                  
+                   
+
+                 
+                    @*<li class="divider"></li>
+                    <li class="nav-title">Thông Tin Tài Khoản</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Account/Index">
+                            <i class="nav-icon icon-mustache"></i> Thông Tin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/DangNhap/DangXuat">
+                            <i class="nav-icon icon-logout"></i> Đăng Xuất
+                        </a>
+                    </li>*@
+
+            
+                </ul>
+            </nav>
+            <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+        </div>
+        <main class="main">
+            @RenderBody();
+
+        </main>
+
+    </div>
+    <footer class="app-footer">
+        <div>
+            <a href="https://huflit.edu.vn/">HUFLIT</a>
+            <span>&copy; 2020- TMDT</span>
+        </div>
+        <div class="ml-auto">
+            <span>ĐIỆN MÁY ĐỎ</span>
+            <a href="~/Home/Index">DMD</a>
+        </div>
+    </footer>
+    <!-- CoreUI and necessary plugins-->
+    @*<script src="~/Admin_Assets/js/jquery.min.js"></script>*@
+    <script src="~/Admin_Assets/js/popper.min.js"></script>
+    <script src="~/Admin_Assets/js/bootstrap.min.js"></script>
+    <script src="~/Admin_Assets/js/pace.min.js"></script>
+    <script src="~/Admin_Assets/js/perfect-scrollbar.min.js"></script>
+    <script src="~/Admin_Assets/js/coreui.min.js"></script>
+    <script src="~/Admin_Assets/js/Chart.min.js"></script>
+    <script src="~/Admin_Assets/js/custom-tooltips.min.js"></script>
+    <script src="~/Admin_Assets/js/widgets.js"></script>
+</body>
+</html>

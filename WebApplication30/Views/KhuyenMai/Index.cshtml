@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<html>
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+
+
+
+    @if (ViewBag.Alert != null)
+    {
+        <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Alert");
+        }
+        </script>
+    }
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item">
+            <a href="#">Khuyến Mãi</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    @if (Session["UpdateKM"] == null)
+                    {
+                        <form method="post" action="~/KhuyenMai/Index" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="tennsx">Tên Khuyến Mãi</label>
+                                <input required type="text" class="form-control" id="tennsx" name="tenkm" aria-describedby="emailHelp" placeholder="Enter Username">
+                                @if (ViewBag.Ten != null)
+                                {
+                                    <small id="emailHelp" style="color:red;">@ViewBag.Ten.</small>}
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Ngày Bắt Đầu</label>
+                                    <input required type="date" class="form-control" aria-describedby="bd" name="batdau" id="inputEmail4" placeholder="Nhập Họ">
+                                    @if (ViewBag.BD != null)
+                                    {
+                                        <small id="bd" style="color:red;">@ViewBag.BD.</small>}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Ngày Kết Thúc</label>
+                                    <input required type="date" class="form-control" aria-describedby="kt" name="ketthuc" id="inputPassword4" placeholder="Nhập Tên">
+                                    @if (ViewBag.KT != null)
+                                    {
+                                        <small id="kt" style="color:red;">@ViewBag.KT.</small>}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Phần Trăm</label>
+                                    <input required type="number" placeholder="Enter % Khuyến Mãi" class="form-control" aria-describedby="pt" name="phantram" id="exampleInputPassword1">
+                                    @if (ViewBag.PT != null)
+                                    {
+                                        <small id="pt" style="color:red;">@ViewBag.PT.</small>}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label for="disabledSelect">Ảnh Khuyến Mãi</label>
+                                        <input required type="file" class="form-control-file" name="anh" id="exampleInputPassword1">
+                                    </div>
+                                </div>
+                            </div>
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Thêm Mới</button>
+                            <button style="width:100px;" disabled type="submit" class="btn btn-primary">Sửa đổi</button>
+                        </form>
+                    }
+                    else
+                    {
+                        var km = Session["UpdateKM"] as WebApplication30.Models.KhuyenMai;
+                        <form method="post" action="~/KhuyenMai/Index" enctype="multipart/form-data">
+
+                            
+
+                            @{
+                                string dateValue = km.NgayBD.Year + "-" + km.NgayBD.Month + "-" + km.NgayBD.Day;
+                                if (km.NgayBD.Month < 10 && km.NgayBD.Day >= 10)
+                                {
+                                    dateValue = km.NgayBD.Year + "-0" + km.NgayBD.Month + "-" + km.NgayBD.Day;
+
+                                }
+                                else if (km.NgayBD.Day < 10 && km.NgayBD.Month >= 10)
+                                {
+                                    dateValue = km.NgayBD.Year + "-" + km.NgayBD.Month + "-0" + km.NgayBD.Day;
+                                }
+                                else if (km.NgayBD.Month < 10 && km.NgayBD.Day < 10)
+                                {
+                                    dateValue = km.NgayBD.Year + "-0" + km.NgayBD.Month + "-0" + km.NgayBD.Day;
+                                }
+
+                                string dateValue1 = km.NgayKT.Year + "-" + km.NgayKT.Month + "-" + km.NgayKT.Day;
+                                if (km.NgayKT.Month < 10 && km.NgayKT.Day >= 10)
+                                {
+                                    dateValue1 = km.NgayKT.Year + "-0" + km.NgayKT.Month + "-" + km.NgayKT.Day;
+
+                                }
+                                else if (km.NgayKT.Day < 10 && km.NgayKT.Month >= 10)
+                                {
+                                    dateValue1 = km.NgayKT.Year + "-" + km.NgayKT.Month + "-0" + km.NgayKT.Day;
+                                }
+                                else if (km.NgayKT.Month < 10 && km.NgayKT.Day < 10)
+                                {
+                                    dateValue1 = km.NgayKT.Year + "-0" + km.NgayKT.Month + "-0" + km.NgayKT.Day;
+                                }
+                            }
+
+                            <div class="form-group">
+                                <label for="tennsx">Tên Khuyến Mãi</label>
+                                <input required type="text" value="@km.TenKM" class="form-control" id="tennsx" name="tenkm" aria-describedby="emailHelp" placeholder="Enter Username">
+                                @if (ViewBag.Ten != null)
+                                {
+                                    <small id="emailHelp" style="color:red;">@ViewBag.Ten.</small>}
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Ngày Bắt Đầu</label>
+                                    <input required type="date" value="@dateValue" class="form-control" aria-describedby="bd" name="batdau" id="inputEmail4" placeholder="Nhập Họ">
+                                    @if (ViewBag.BD != null)
+                                    {
+                                        <small id="bd" style="color:red;">@ViewBag.BD.</small>}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Ngày Kết Thúc</label>
+                                    <input required type="date" value="@dateValue1" class="form-control" aria-describedby="kt" name="ketthuc" id="inputPassword4" placeholder="Nhập Tên">
+                                    @if (ViewBag.KT != null)
+                                    {
+                                        <small id="kt" style="color:red;">@ViewBag.KT.</small>}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Phần Trăm</label>
+                                    <input required type="number" value="@km.PhanTram" class="form-control" aria-describedby="pt" placeholder="Enter % Khuyến Mãi" name="phantram" id="exampleInputPassword1">
+                                    @if (ViewBag.PT != null)
+                                    {
+                                        <small id="pt" style="color:red;">@ViewBag.PT.</small>}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label for="disabledSelect">Ảnh Khuyến Mãi</label>
+                                        <input type="file" class="form-control-file" name="anh" id="exampleInputPassword1">
+                                    </div>
+                                </div>
+                            </div>
+                            <button style="width:100px;" disabled type="submit" class="btn btn-primary">Thêm Mới</button>
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Sửa đổi</button>
+
+                        </form>
+                                }
+                </div>
+                <div class="col-6">
+                    <form method="post" action="~/KhuyenMai/TimKiem">
+
+                        <div class="form-group">
+                            <label for="tennsx">Tên Khuyến Mãi</label>
+                            <input type="text" class="form-control" id="tennsx" name="tenkm" aria-describedby="emailHelp" placeholder="Enter Tên Khuyến Mãi">
+                        </div>
+                        
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="tennsx">Phần Trăm</label>
+                                <input type="number" class="form-control" id="tennsx" name="phantram" aria-describedby="emailHelp" placeholder="Enter % Khuyến Mãi">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Ngày Trong CTKM</label>
+                                <input type="date" class="form-control" name="indate" id="inputPassword4">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Ngày Bắt Đầu</label>
+                                <input type="date" class="form-control" name="batdau" id="inputEmail4">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Ngày Kết Thúc</label>
+                                <input type="date" class="form-control" name="ketthuc" id="inputPassword4">
+                            </div>
+                        </div>
+
+                        <button style="width:100px;" type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                        <button style="width:100px;" class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Reset", "KhuyenMai")'">
+                            Reset
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <table id="example1" class="table" style="width:100%;">
+                <thead class="thead-dark">
+                    <tr style="background-color:aliceblue">
+                        <th scope="col" style="width:100px;" class="text-center">ID KM</th>
+                        <th scope="col" class="text-center">Tên KM</th>
+                        <th class="text-center">% KM</th>
+                        <th scope="col" style="width:150px;" class="text-center">Hình Ảnh</th>
+                        <th scope="col" class="text-center">Ngày Bắt Đầu</th>
+                        <th scope="col" class="text-center">Ngày Kết Thúc</th>
+                        <th scope="col" class="text-center">Thao Tác</th>
+                    </tr>
+                </thead>
+
+                @{
+                    var list = Session["ListKM"] as List<WebApplication30.Models.KhuyenMai>;
+                }
+                @if (list != null)
+                {
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td class="text-center">@item.MaKhuyenMai</td>
+                                <td class="text-center">@item.TenKM</td>
+                                <td class="text-center">@item.PhanTram%</td>
+                                <td>
+                                    <img style="width: 80px;height: 95px;display: block; margin-left: auto; margin-right: auto;"
+                                         src="~/UploadedFiles/@item.AnhKM" alt="image">
+                                </td>
+                                <td class="text-center">@item.NgayBD.ToShortDateString()</td>
+                                <td class="text-center">@item.NgayKT.ToShortDateString()</td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Xem", "Update", "KhuyenMai", new { idKM = item.MaKhuyenMai }, new { })&nbsp;
+                                    @Html.ActionLink("Xóa", "Delete", "KhuyenMai", new { confirm = true, idKM = item.MaKhuyenMai }, new { onclick = "return confirm('Do you want to delete this shit?')" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+
+            </table>
+        </div>
+
+     
+    </div>
+
+
+
+</body>
+</html>

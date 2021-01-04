@@ -1,0 +1,593 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    WebApplication30.DAO.HomeDAO dao = new WebApplication30.DAO.HomeDAO();
+    var db = new WebApplication30.Models.KinhContext();
+    WebApplication30.DAO.KinhDAO daoMH = new WebApplication30.DAO.KinhDAO();
+}
+@if (ViewBag.Err != null)
+{
+    <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Err");
+        }
+    </script>
+}
+
+<section class="slider">
+    <div class="container">
+        <div class="row">
+            
+                <div id="owl-demo" class="owl-carousel owl-theme">
+
+                    <div class="item">
+                        <div class="slide">
+                            <img src="~/Home_Assets/images/Samsung.jpg" alt="slide1">
+                            <div class="content">
+                                <div class="title">
+                                    <h3>SamSung</h3>
+                                    <h5>Cập Nhật Những Mẫu SamSung Mới Nhất</h5>
+                                    <a href="#" class="btn">Mua Ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="slide">
+                            <img src="~/Home_Assets/images/3.jpg" alt="slide1">
+                            <div class="content">
+                                <div class="title">
+                                    <h3>IPHONE</h3>
+                                    <h5>IPHONE GIÁ TỐT NHẤT THỊ TRƯỜNG</h5>
+                                    <a href="#" class="btn">Xem Ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="slide">
+                            <img src="~/Home_Assets/images/4.jpg" alt="slide1">
+                            <div class="content">
+                                <div class="title">
+                                    <h3>Những Thiết bị điện tử khác</h3>
+                                    <h5>Thiết bị điện tử khác </h5>
+                                    <a href="#" class="btn">Xem Ngay</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+
+<section class="recomended-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Những Sản Phẩm Bán Chạy</h2>
+            <hr>
+        </div>
+        @*<div class="row">
+
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+
+                        <a href="#"> <img src="https://shopdunk.com/wp-content/uploads/2018/11/macbook-air-2018-xam-1.png" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">MacBook Pro</p>
+
+                                <span class="price-new">8.999.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCHon0060_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Honor 8 Pro</p>
+
+                                <span class="price-new">9.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCMot0271_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Motorola Moto</p>
+                                <span class="price-new">2.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCLG0055_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">LG Q6</p>
+
+                                <span class="price-new">5.000.000đ</span>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </article>
+            </div>
+        </div>*@
+    </div>
+
+        <div class="row">
+
+            <div id="bookslide" class="owl-carousel owl-theme mt-5 mb-2">
+                @{
+                    foreach (var item1 in dao.GetListBanChay())
+                    {
+                        var item = db.Kinhs.Find(item1.IDMH);
+                        <div class="ml-2 mr-2">
+                            <div class="item">
+                                <img style="width: 225px;height: 250px;display: block;margin-left: auto; margin-right: auto;" src="~/UploadedFiles/@item.AnhBia" alt="img">
+                                <h3>@item.TenKinh</h3>
+                                <h6><span class="price">Lượt Xem</span> : <a href="#">@item.LuotXem</a></h6>
+                                <h6><span class="price">@item.Gia $</span> / <a href="#">Mua ngay</a></h6>
+                                @if (@item.KhuyenMaiId != 7 && item.KhuyenMai.NgayKT >= DateTime.Now && item.KhuyenMai.NgayBD <= DateTime.Now)
+                                {
+                                    <span class="sale">Sale !</span>
+                                }
+                                <div class="hover">
+                                    <a href="~/ChiTietMH/Index/@item.MaKinh">
+                                        <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+               
+                
+            </div>
+
+
+
+
+        </div>
+        <div class="btn-sec">
+            <a href="~/MoHinhs/BanChay" class="btn gray-btn">Xem Chi Tiết</a>
+        </div>
+    </div>
+</section>
+
+<section class="recomended-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Sản Phẩm  mới</h2>
+            <hr>
+        </div>
+        @*<div class="row">
+
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+
+                        <a href="#"> <img src="https://shopdunk.com/wp-content/uploads/2018/11/macbook-air-2018-xam-1.png" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">MacBook Pro</p>
+
+                                <span class="price-new">8.999.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCHon0060_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Honor 8 Pro</p>
+
+                                <span class="price-new">9.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCMot0271_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Motorola Moto</p>
+                                <span class="price-new">2.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCLG0055_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">LG Q6</p>
+
+                                <span class="price-new">5.000.000đ</span>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </article>
+            </div>
+        </div>*@
+    </div>
+
+        <div class="row">
+
+            <div id="bookslide1" class="owl-carousel owl-theme mt-5 mb-2">
+
+                @{
+                    foreach (var item in dao.GetListMoi())
+                    {
+                        <div class="ml-2 mr-2">
+                            <div class="item">
+                                <img style="width: 225px;height: 250px;display: block;margin-left: auto; margin-right: auto;" src="~/UploadedFiles/@item.AnhBia" alt="img">
+                                <h3>@item.TenKinh</h3>
+                                <h6><span class="price">Lượt Xem</span> : <a href="#">@item.LuotXem</a></h6>
+                                <h6><span class="price">@item.Gia $</span> / <a href="#">Mua ngay</a></h6>
+                                @if (@item.KhuyenMaiId != 7 && item.KhuyenMai.NgayKT >= DateTime.Now && item.KhuyenMai.NgayBD <= DateTime.Now)
+                                {
+                                    <span class="sale">Sale !</span>
+                                }
+                                <div class="hover">
+                                    <a href="~/ChiTietMH/Index/@item.MaKinh">
+                                        <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+              
+
+
+            </div>
+
+
+
+        </div>
+        <div class="btn-sec">
+            <a href="~/MoHinhs/MHMoi" class="btn gray-btn">Xem Chi Tiết</a>
+        </div>
+    </div>
+</section>
+
+<section class="recomended-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Xem nhiều</h2>
+            <hr>
+        </div>
+        @*<div class="row">
+            
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+                        
+                        <a href="#"> <img src="https://shopdunk.com/wp-content/uploads/2018/11/macbook-air-2018-xam-1.png" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">MacBook Pro</p>
+                                
+                                <span class="price-new">8.999.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+                       
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCHon0060_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Honor 8 Pro</p>
+                                
+                                <span class="price-new">9.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCMot0271_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">Motorola Moto</p>
+                                <span class="price-new">2.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-3">
+                <article class="col-item">
+                    <div class="photo">
+                        <a href="#"> <img src="https://www.yaantra.com/ItemImages/Catalog/Products/ThumbNail/RCLG0055_1.jpg" class="img-responsive" alt="Product Image" /> </a>
+                    </div>
+                    <div class="info">
+                        <div class="row">
+                            <div class="price-details col-md-6">
+                                <p class="details">LG Q6</p>
+                               
+                                <span class="price-new">5.000.000đ</span>
+                            </div>
+                        </div>
+                  
+                        <div class="clearfix"></div>
+                    </div>
+                </article>
+            </div>
+        </div>*@
+    </div>
+
+                <div class="row">
+
+                    <div id="bookslide2" class="owl-carousel owl-theme mt-5 mb-2">
+                        @foreach (var item in dao.GetListXemNhieu())
+                        {
+                            <div class="ml-2 mr-2">
+                                <div class="item">
+                                    <img style="width: 225px;height: 250px;display: block;margin-left: auto; margin-right: auto;" src="~/UploadedFiles/@item.AnhBia" alt="img">
+                                    <h3>@item.TenKinh</h3>
+                                    <h6><span class="price">Lượt Xem</span> : <a href="#">@item.LuotXem</a></h6>
+                                    <h6><span class="price">@item.Gia $</span> / <a href="#">Mua ngay</a></h6>
+                                    @if (@item.KhuyenMaiId != 7 && item.KhuyenMai.NgayKT >= DateTime.Now && item.KhuyenMai.NgayBD <= DateTime.Now)
+                                    {
+                                        <span class="sale">Sale !</span>
+                                    }
+                                    <div class="hover">
+                                        <a href="~/ChiTietMH/Index/@item.MaKinh">
+                                            <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+
+
+
+                </div>
+                <div class="btn-sec">
+                    <a href="~/MoHinhs/XemNhieu" class="btn gray-btn">Xem Chi Tiết</a>
+                </div>
+            </div>
+</section>
+
+
+
+
+  
+
+@*<section class="recent-book-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Phụ Kiện Điện Tử</h2>
+            <hr>
+        </div>
+    </div>
+
+        <div class="row">
+            @foreach (var item in daoMH.GetListTool())
+            {
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                    <div class="item">
+                        <img src="~/UploadedFiles/@item.AnhBia" alt="img">
+                        <h3><a href="~/ChiTietMH/Index/@item.MaKinh">@item.TenKinh</a></h3>
+                        @if (@item.KhuyenMaiId != 7 && item.KhuyenMai.NgayKT >= DateTime.Now && item.KhuyenMai.NgayBD <= DateTime.Now)
+                        {
+                            <span class="sale">Sale !</span>
+                        }
+                        <h6><span class="price">@item.Gia VNĐ</span> / @Html.ActionLink("Buy Now", "MuaNgay", "Home", new { idMH = item.MaKinh },null)</h6>
+                    </div>
+                </div>
+            }
+            
+
+        </div>
+        <div class="btn-sec">
+            <a href="~/MoHinhs/DungCu" class="btn gray-btn">Xem Chi Tiết</a>
+
+        </div>
+
+</section>*@
+<section>
+    <div style="width:100%;background-color:#f7f4f0;margin-bottom:20px;" class="container-fluid">
+        <div style="width:100%" class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <img style="height:400px;width:500px; padding-top:10px;padding-bottom:10px;" src="~/Home_Assets/images/06b998337ef3c34d74737e6033810fab.jpg" />
+                </div>
+                <div class="col-8">
+                    <h2 style="padding-top:40px;padding-bottom:10px;">Thông Tin Chúng Tôi</h2>
+                    <textarea style="border:none;background-color:#f7f4f0;" readonly rows="8" cols="85">Giấy chứng nhận ĐKKD số: 0302286281 do Sở KH & ĐT TPHCM cấp lần đầu ngày 22/06/2006. Giấy phép ICP số 01/GP-STTTT do Sở Thông tin & Truyền thông TP.HCM cấp ngày 11/01/2017. Địa chỉ: 828 Sư Vạn Hạnh, Phường 13, Quận 10, Thành phố Hồ Chí Minh. 
+Điện thoại: 1800 6800 - Email: dienmaydo2020@gmail.com. 
+Copyright © 1999 - 2020 Công ty Cổ phần Thương mại TDT.</textarea><br />
+                    @*<button class="btn btn-primary">Shopping</button>*@
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<section class="features-sec">
+    <div class="container">
+        <ul>
+            <li>
+                <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                <h3>An Toàn </h3>
+                <h5>An Toàn Khi Mua Hàng</h5>
+                <h6>
+                    Thời gian bảo hành: 24 tháng
+                    Trung Tâm Thông Tin Khách Hàng : 18001503
+                </h6>
+            </li>
+            <li>
+                <span class="icon return"><i class="fa fa-reply-all" aria-hidden="true"></i></span>
+                <h3>30 Ngày Đổi Trả Hàng</h3>
+                <h5>Đổi Trả Hàng</h5>
+                <h6>
+                    Miễn phí vệ sinh laptop trong 2 năm.
+                    Đổi trả trong 30 ngày nếu bị lỗi kĩ thuật
+                    ....
+
+                </h6>
+            </li>
+            <li>
+                <span class="icon chat"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                <h3>24/7</h3>
+                <h5>Tư vấn 24/7</h5>
+                <h6>
+                    Hỗ trợ cài đặt hệ điều hành và phần mềm.
+
+                    ♦ Hotline tư vấn: (08) 7108 1881 – 0933 73 1881....
+                </h6>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="offers-sec" style="background:url(~/Home_Assets/images/offers.jpg)no-repeat;">
+    <div class="cover"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="detail">
+                    <h3>Giảm trực tiếp</h3>
+                    <h6>
+                        Giảm trực tiếp 2.000.000 VNĐ chỉ còn 8.990.000 VNĐ đối với SamSung A70
+                    </h6>
+                    <a href="products.html" class="btn blue-btn">Xem Chi Tiết</a>
+                    <span class="icon-point percentage">
+                        <img src="~/Home_Assets/images/SamSungA70.jpg" alt="">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail">
+                    <h3>Khuyến Mãi</h3>
+                    <h6>
+                        Giảm 50.000đ khi mua kèm Cường lực cao cấp Jcpal/Kingbull.
+                    </h6>
+                    <a href="products.html" class="btn blue-btn">Xem Chi Tiết</a>
+                    <span class="icon-point amount"><img src="~/Home_Assets/images/amount.png" alt=""></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="testimonial-sec">
+    <div class="container">
+        <div id="testimonal" class="owl-carousel owl-theme">
+            <div class="item">
+                <h3>
+                    Chất lượng tốt so với tầm giá
+                    sản phẩm đẹp hơn trong hình, mặc rất mát và thoải mái
+                    Tiền nào của đó. đúng hàng đúng chất lượng
+                    giao nhanh hơn dự kiến
+                </h3>
+                <div class="box-user">
+                    <h4 class="author">Nguyễn Thị Hồng</h4>
+                    <span class="country">Viet Nam</span>
+
+
+                </div>
+            </div>
+            <div class="item">
+                <h3>Đúng hàng chính hãng chưa khui. Shop chuẩn bị hàng nhanh đóng gói đảm bảo an toàn đáng tiền nên mua.</h3>
+                <div class="box-user">
+                    <h4 class="author">Trần Văn Hùng</h4>
+                    <span class="country">Việt Nam</span>
+                </div>
+            </div>
+            <div class="item">
+                <h3>Hy vọng là ngon bổ rẻ, chưa xài, mong cửa hàng kích hoạt bảo hành sớm dùm. Liên hệ trung tâm  cho 8 sao luôn</h3>
+                <div class="box-user">
+                    <h4 class="author">Nguyễn Sơn Tùng</h4>
+                    <span class="country">Việt Nam</span>
+                </div>
+            </div>
+            <div class="item">
+                <h3>Đóng gói cẩn thận, máy nhìn bắt mắt, nhận hàng xong là có tin nhắn bảo hành từ samsung, mọi người yên tâm mua dc sản phẩm chính hãng mà giá cực ưu đãi nha</h3>
+                <div class="box-user">
+                    <h4 class="author">Lê Văn Ơn</h4>
+                    <span class="country">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="left-quote">
+        <img src="~/Home_Assets/images/left-quote.png" alt="quote">
+    </div>
+    <div class="right-quote">
+        <img src="~/Home_Assets/images/right-quote.png" alt="quote">
+    </div>
+    
+</section>
+

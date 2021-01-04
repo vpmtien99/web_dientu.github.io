@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<html>
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+
+    @if (ViewBag.Alert != null)
+    {
+        <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Alert");
+        }
+        </script>
+    }
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item">
+            <a href="#">Log Admin</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                        <form method="post" action="~/Log/Search" enctype="multipart/form-data">
+                            @{ 
+                                var s = Session["LoaiLog"] as string;
+                            }
+                            <input type="text" hidden value="@s" name="loai"/>
+                            <div class="form-group">
+                                <label for="tennsx">Tài Khoản</label>
+                                <input type="text" class="form-control" id="tennsx" name="taikhoan" aria-describedby="emailHelp" placeholder="Enter Tên Tài Khoản">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Ngày</label>
+                                <input type="date" class="form-control" name="ngay" id="exampleInputPassword1">
+                            </div>
+                            <div class="form-group">
+                                
+                                @{ 
+                                    var s1 = Session["TKLog"] as string;
+                                }
+                                @if (s1 == "Admin")
+                                {
+                                    <label for="exampleFormControlTextarea1">Hành Động</label>
+                                <select name="hanhdong">
+                                    <option selected value="All">Tất Cả</option>
+                                    <option value="T">Thêm</option>
+                                    <option value="S">Sửa</option>
+                                    <option value="K">Khóa</option>
+                                    <option value="M">Mở Khóa</option>
+                                </select>}
+                                else if (s1 == "HoaDon")
+                                {
+                                    <label for="exampleFormControlTextarea1">Hành Động</label>
+                                    <select name="hanhdong">
+                                        <option selected value="All">Tất Cả</option>
+                                        <option value="V">Xác Nhận</option>
+                                        <option value="G">Giao</option>
+                                        <option value="H">Hủy</option>
+                                    </select>
+                                }
+                                else if (s1 == "KH")
+                                {
+                                    <label for="exampleFormControlTextarea1">Hành Động</label>
+                                    <select name="hanhdong">
+                                    <option selected value="All">Tất Cả</option>
+                                    <option value="S">Sửa</option>
+                                    <option value="K">Khóa</option>
+                                    <option value="M">Mở Khóa</option>
+                                </select>
+                                }
+                                else if (s1 == "TruyCap") { }
+                                else
+                                {
+                                    <label for="exampleFormControlTextarea1">Hành Động</label>
+                                    <select name="hanhdong">
+                                        <option selected value="All">Tất Cả</option>
+                                        <option value="T">Thêm</option>
+                                        <option value="S">Sửa</option>
+                                        <option value="X">Xóa</option>
+                                    </select>
+                                }
+                            </div>
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                            <button style="width:100px;" type="button" onclick="location.href='@Url.Action("Reset", "Log")'" class="btn btn-primary">Reset</button>
+                        </form>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <table id="example1" class="table" style="width:100%;">
+                <thead class="thead-dark">
+                    <tr style="background-color:aliceblue">
+     
+                        <th scope="col" class="text-center">Tài Khoản</th>
+                        <th scope="col" class="text-center">Ngày</th>
+                        <th scope="col" class="text-center">Hành Động</th>
+                        <th scope="col" class="text-center">Chi Tiết</th>
+                    </tr>
+                </thead>
+
+                @{
+                    
+                    var list = Session["Logs"] as List<WebApplication30.Models.Log>;
+                }
+                @if (list != null)
+                {
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td class="text-center">@item.KhachHang.Username</td>
+                                <td class="text-center">@item.Ngay</td>
+                                @{ 
+                                    string i = item.HanhDong.Substring(0, 1);
+                                }
+                                @if (i == "T")
+                                {
+                                    <td class="text-center">Thêm</td>
+                                }
+                                else if (i == "S")
+                                {
+                                    <td class="text-center">Sửa</td>
+                                }else if (i == "X")
+                                {
+                                    <td class="text-center">Xóa</td>
+                                }else if (i == "K")
+                                {
+                                    <td class="text-center">Khóa</td>
+                                }
+                                else if (i == "V")
+                                {
+                                    <td class="text-center">Xác Nhận</td>
+                                }
+                                else if (i == "H")
+                                {
+                                    <td class="text-center">Hủy</td>
+                                }
+                                else if (i == "G")
+                                {
+                                    <td class="text-center">Giao</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">Mở Khóa</td>
+                                }
+                                <td class="text-center">@Html.Raw(@item.ChiTiet)</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

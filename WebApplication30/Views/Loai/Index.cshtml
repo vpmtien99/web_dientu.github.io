@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<html>
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+
+    @if (ViewBag.Alert != null)
+    {
+        <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Alert");
+        }
+        </script>
+    }
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item">
+            <a href="#">Loại</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    @if (Session["UpdateLoai"] == null)
+                    {
+                        <form method="post" action="~/Loai/Index" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="tennsx">Tên Loại</label>
+                                <input type="text" class="form-control" id="tennsx" name="tenloai" aria-describedby="emailHelp" placeholder="Enter Tên Loại">
+                                @if (ViewBag.Err != null)
+                                {
+                                    <small id="emailHelp" style="color:red;">@ViewBag.Err.</small>}
+                            </div>
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Thêm mới</button>
+                            <button style="width:100px;" disabled type="submit" class="btn btn-primary">Sửa đổi</button>
+                        </form>
+                    }
+                    else
+                    {
+                        var nxb = Session["UpdateLoai"] as WebApplication30.Models.Loai;
+                        <form method="post" action="~/Loai/Index" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="tennsx">Tên Loại</label>
+                                <input type="text" class="form-control" id="tennsx" name="tenloai" value="@nxb.TenLoai" aria-describedby="emailHelp" placeholder="Enter Tên Loại">
+                                @if (ViewBag.Err != null)
+                                {
+                                    <small id="emailHelp" style="color:red;">@ViewBag.Err.</small>}
+                            </div>
+                            <button disabled style="width:100px;" class="btn btn-primary">Thêm mới</button>
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Sửa đổi</button>
+                        </form>
+                    }
+                </div>
+                <div class="col-6">
+                    <form method="post" action="~/Loai/TimKiem">
+                        <div class="form-group">
+                            <label for="tennsx">Tên Loại</label>
+                            <input type="text" class="form-control" id="tennsx" name="tenloai" placeholder="Enter Tên Loại">
+                        </div>
+                        <button style="width:100px;" type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <table id="example1" class="table" style="width:100%;">
+                <thead class="thead-dark">
+                    <tr style="background-color:aliceblue">
+                        <th scope="col" style="width:100px;" class="text-center">Mã Loại</th>
+                        <th scope="col" class="text-center">Tên Loại</th>
+                        <th scope="col" class="text-center">Thao Tác</th>
+                    </tr>
+                </thead>
+
+                @{
+                    var list = Session["ListLoai"] as List<WebApplication30.Models.Loai>;
+                }
+                @if (list != null)
+                {
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td class="text-center">@item.MaLoai</td>
+                                <td class="text-center">@item.TenLoai</td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Xem", "Update", "Loai", new { idLoai = item.MaLoai }, new { })&nbsp;
+                                    @Html.ActionLink("Xóa", "Delete", "Loai", new { confirm = true, idLoai = item.MaLoai }, new { onclick = "return confirm('Do you want to delete this shit?')" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

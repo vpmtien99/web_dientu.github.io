@@ -1,0 +1,68 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<WebApplication30.Models.DanhGia>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<div class="container mt-8">
+    <h4 class="mt-5 mb-2">Đánh Giá</h4>
+    @if (Session["TaiKhoan"] == null)
+            {
+        <div style="background-color:#bdc5b3;padding:10px;box-shadow: 10px 10px 5px grey;" class="container">
+            <p><a href="~/DangNhap/Index">Đăng nhập</a> để có thể để lại đánh giá cho sản phẩm này</p>
+        </div>
+        @*<div style="border:1px solid black;" class="row">
+                <p><a href="~/DangNhap/Index">Đăng nhập</a> để có thể để lại đánh giá cho sản phẩm này</p>
+            </div>*@}
+            else
+            {
+        <div class="row">
+            <div style="padding-top:10px;padding-bottom:10px; background-color:#bdc5b3;box-shadow: 10px 10px 5px grey;" class="col-8">
+                @{var tk = Session["TaiKhoan"] as WebApplication30.Models.KhachHang;
+
+                }
+
+                <h5 class="mb-2">@tk.Ten @tk.Ho</h5>
+                @if (Session["CTMoHinh"] != null)
+                {
+                    var mh = Session["CTMoHinh"] as WebApplication30.Models.Kinh;
+                    <form method="post" action="~/ChiTietMH/DanhGiaMH" enctype="multipart/form-data">
+                        <input readonly value="@mh.MaKinh" hidden type="text" name="id" />
+                        <textarea rows="5" cols="88" name="danhgia" required></textarea>
+                        <button type="submit" class="btn btn-primary">Đánh Giá</button>
+                    </form>
+                }
+
+
+
+            </div>
+            <div class="col-4"></div>
+        </div>
+  
+           
+
+
+                                    }
+    @{
+        var db = new WebApplication30.Models.KinhContext();
+
+        foreach (var item in Model)
+        {
+
+            <div class="row mt-3">
+                <div style="padding-top:10px;padding-bottom:10px; background-color:#bdc5b3;box-shadow: 10px 10px 5px grey;" class="col-8">
+                    @{var tk1 = db.KhachHangs.Find(item.KHId);
+
+                    }
+
+                    <h5 class="mb-2">@tk1.Ten @tk1.Ho <small>đánh+ giá vào lúc @item.Ngay </small> </h5>
+                    <form method="post" action="~/ChiTietMH/DanhGia" enctype="multipart/form-data">
+                        <textarea rows="5" cols="88" name="danhgia" required>@item.BinhLuan</textarea>
+                    </form>
+                </div>
+                <div class="col-4"></div>
+            </div>
+                        }
+                        @Html.PagedListPager(Model, page => Url.Action("DanhGia", new { page }))
+    }
+</div>

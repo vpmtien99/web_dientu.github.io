@@ -1,0 +1,128 @@
+﻿ 
+@{
+    ViewBag.Title = "ChiTietLS";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@if (ViewBag.Err != null)
+{
+    <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+        alert(decodeURIComponent("@ViewBag.Err"));
+    }
+    </script>
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="~/Home/Index">Trang chủ</a>
+        <span class="breadcrumb-item active">Chi Tiết Hóa Đơn</span>
+    </div>
+</div>
+<section class="static about-sec">
+
+    <div class="container">
+        <h1>Chi Tiết Hóa Đơn</h1>
+        <div class="row">
+            <div class="col-12">
+                @{
+                    var hd = Session["HDHome"] as WebApplication30.Models.HoaDon;
+                    if (hd != null)
+                    {
+                    <form enctype="multipart/form-data">
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-3 col-form-label" style="font-weight:bold">Mã Hóa Đơn</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.MaHD" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-3 col-form-label" style="font-weight:bold">Ngày Tạo Hóa Đơn</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.NgayTao" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-3 col-form-label" style="font-weight:bold">Tên Người Nhận</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.TenNguoiNhan" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-3 col-form-label" style="font-weight:bold">Địa Chỉ</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.DiaChi" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-3 col-form-label" style="font-weight:bold">SĐT</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.SDT" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" style="font-weight:bold" class="col-sm-3 col-form-label">Tổng Tiền</label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly value="@hd.TongTien $" class="form-control" id="tennsx" name="mahd" aria-describedby="emailHelp" placeholder="Enter Tên NSX">
+                            </div>
+                        </div>
+                    </form>}
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="container">
+ 
+           @{ 
+               var list = Session["CTLS"] as List<WebApplication30.Models.ChiTietHoaDon>;
+               
+           }
+          
+      
+        <div class="form">
+            <table id="example1" class="table" style="width:100%;">
+                <thead class="thead-dark">
+                    <tr style="background-color:aliceblue">
+                        <th scope="col" class="text-center">Tên Mô Hình</th>
+                        <th scope="col" style="width:150px;" class="text-center">Hình Ảnh</th>
+                        <th scope="col" class="text-center">Đơn Giá</th>
+                        <th scope="col" class="text-center">Số Lượng</th>
+                        <th scope="col" class="text-center">Thành Tiền</th>
+                    </tr>
+                </thead>
+                @if (list != null)
+                {
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td class="text-center">@item.Kinh.TenKinh</td>
+                                <td>
+                                    <img style="width: 80px;height: 95px;display: block; margin-left: auto; margin-right: auto;"
+                                         src="~/UploadedFiles/@item.Kinh.AnhBia" alt="image">
+                                </td>
+                                <td class="text-center">@item.DonGia</td>
+                                <td class="text-center">@item.SoLuong</td>
+                                <td class="text-center">@item.ThanhTien</td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+
+            </table> 
+           
+        </div>
+
+    </div>
+</section>
+
+

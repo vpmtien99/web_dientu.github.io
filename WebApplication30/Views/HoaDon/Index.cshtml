@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<html>
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+
+    @if (ViewBag.Err != null)
+    {
+        <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Err");
+        }
+        </script>
+    }
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item">
+            <a href="#">Đơn hàng</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                        <form method="post" action="~/HoaDon/TimKiem" enctype="multipart/form-data">
+                            
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="tennsx">Mã Hóa Đơn</label>
+                                    <input type="number" class="form-control" id="mahd" name="mahd" aria-describedby="emailHelp" placeholder="Enter Mã Hóa Đơn">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Ngày Tạo Hóa Đơn</label>
+                                    <input type="date" class="form-control" name="ngay" id="inputPassword4" placeholder="Nhập Tên">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label for="disabledSelect">Tình Trạng Hóa Đơn</label>
+                                        <select name="tinhtrang" id="disabledSelect" class="form-control">
+                                            <option selected value="All">Tất Cả</option>
+                                            <option value="Chưa Xác Nhận">Chưa Xác Nhận</option>
+                                            <option value="Chờ Giao Hàng">Chờ Giao Hàng</option>
+                                            <option value="Đang Giao Hàng">Đang Giao Hàng</option>
+                                            <option value="Giao Thành Công">Giao Thành Công</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="ss">So Sánh</label>
+                                            <select name="ss" id="ss" class="form-control">
+                                                <option selected value="=">=</option>
+                                                <option value=">">></option>
+                                                <option value="<"><</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="diem">Tổng Tiền</label>
+                                            <input type="number" class="form-control" name="tien" id="diem" placeholder="Nhập Số Tiền">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button style="width:100px;" type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                            <button style="width:100px;" class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Reset", "HoaDon")'">Reset</button>
+</form>
+                    
+                   
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fluid mt-5">
+            <table id="example1" class="table" style="width:100%;">
+                <thead class="thead-dark">
+                    <tr style="background-color:aliceblue">
+                        <th scope="col" style="width:50px;" class="text-center">Mã</th>
+                        <th scope="col" style="width:100px;" class="text-center">Tên</th>
+                        <th scope="col" style="width:150px;" class="text-center">Địa Chỉ</th>
+                        <th scope="col" class="text-center">SĐT</th>
+                        <th scope="col" class="text-center">Tổng Tiền</th>
+                        <th scope="col" style="width:100px;" class="text-center">Ngày Tạo</th>
+                        <th scope="col" class="text-center">Tình Trạng</th>
+                        <th scope="col" class="text-center">Thao Tác</th>
+                    </tr>
+                </thead>
+
+                @{
+                    var list = Session["ListHD"] as List<WebApplication30.Models.HoaDon>;
+                }
+                @if (list != null)
+                {
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td class="text-center">@item.MaHD</td>
+                                <td class="text-center">@item.TenNguoiNhan</td>
+                                <td class="text-center" style="width:170px;margin-left:auto;margin-right:auto;overflow-y:auto;display:block;" >@item.DiaChi</td>
+                                <td class="text-center">@item.SDT</td>
+                                <td class="text-center">@item.TongTien $</td>
+                                <td class="text-center">@item.NgayTao</td>
+                                    <td class="text-center">@item.TinhTrangDonHang</td>
+                                    <td class="text-center">
+
+                                        <button class="btn btn-primary" onclick="window.location.href='/CTHD/Index/@item.MaHD'">Xem</button>
+                                        @*@Html.ActionLink("Xem", "Update", "HoaDon", new { idHD = item.IdHD }, new { @class = "btn btn-primary" })&nbsp;*@
+                                      
+                                        @*@Html.ActionLink("Xác Nhận", "Check", "HoaDon", new { confirm = true, idHD = item.IdHD }, new { onclick = "return confirm('Do you want to check this shit?')",@class="btn btn-primary" })*@
+                                        @*@Html.ActionLink("Hủy", "Delete", "HoaDon", new { confirm = true, idHD = item.IdHD }, new { onclick = "return confirm('Do you want to đelete this shit?')", @class = "btn btn-primary" })*@
+                                        @*@Html.ActionLink("Đã Giao", "Giao", "HoaDon", new { confirm = true, idHD = item.IdHD }, new { onclick = "return confirm('Do you want to check this shit?')", @class = "btn btn-primary" })*@
+                                    </td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

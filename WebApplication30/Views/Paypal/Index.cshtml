@@ -1,0 +1,66 @@
+﻿@using System.Configuration
+@model List<WebApplication30.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="index.html">Giỏ Hàng</a>
+        <span class="breadcrumb-item active">Thanh Toán</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+
+        <h1>Xác Nhận Thanh Toán PayPal</h1>
+
+        <div class="form">
+           <form action="@ConfigurationManager.AppSettings["urlSubmitPayment"]">
+        <input hidden name="cmd" value="_cart"/>
+        <input hidden name="upload" value="1"/>
+        <input hidden name="return" value="@ConfigurationManager.AppSettings["urlReturn"]"/>
+        <input hidden name="business" value="@ConfigurationManager.AppSettings["accountBusiness"]"/>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <input hidden name="@Url.Content("item_name_"+(i+1))" value="@Model[i].item_name"/>
+            <input hidden name="@Url.Content("item_number_"+(i+1))" value="@Model[i].item_number" />
+            <input hidden name="@Url.Content("amount_"+(i+1))" value="@Model[i].amount" />
+            <input hidden name="@Url.Content("quantity_"+(i+1))" value="@Model[i].quantity" />
+
+        }
+               <div class="row">
+                   <div class="col-md-3"></div>
+                   <div class="col-md-6">
+                       <input class="btn btn-black" type="submit" value="Xác Nhận Paypal" />
+                   </div>
+                   <div class="col-md-3"></div>
+               </div>
+        
+    </form>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+@*<form action="@ConfigurationManager.AppSettings["urlSubmitPayment"]">
+    <input hidden name="cmd" value="_cart"/>
+    <input hidden name="upload" value="1"/>
+    <input hidden name="return" value="@ConfigurationManager.AppSettings["urlReturn"]"/>
+    <input hidden name="business" value="@ConfigurationManager.AppSettings["accountBusiness"]"/>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <input hidden name="@Url.Content("item_name_"+(i+1))" value="@Model[i].item_name"/>
+        <input hidden name="@Url.Content("item_number_"+(i+1))" value="@Model[i].item_number" />
+        <input hidden name="@Url.Content("amount_"+(i+1))" value="@Model[i].amount" />
+        <input hidden name="@Url.Content("quantity_"+(i+1))" value="@Model[i].quantity" />
+        
+    }
+    <input type="submit"  value="Paypal"/>
+</form>*@
+

@@ -1,0 +1,436 @@
+﻿
+@{
+    ViewBag.Title = "Chart";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var dao = new WebApplication30.DAO.ChartDAO();
+    int year = DateTime.Today.Year;
+}
+
+<html>
+
+<head>
+    <script src="~/scripts/Chart.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+
+    @if (ViewBag.Alert != null)
+    {
+        <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@ViewBag.Alert");
+        }
+        </script>
+    }
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item">
+            <a href="#">Tài Khoản Admin</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="chart_DT_Thang"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="chart_SL_Thang"></canvas>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <canvas id="chart_SL_NSX">
+
+            </canvas>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <canvas id="chart_SL_Loai"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="chart_Top10"></canvas>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <canvas id="chart_Top10_NSX"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="chart_Top10_Loai"></canvas>
+            </div>
+        </div>
+       
+
+       
+    </div>
+    <script>
+        var month=@Html.Raw(Json.Encode(dao.ListThang()));
+        var soLieu=@Html.Raw(Json.Encode(dao.DoanhThuTheoThang()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var DoanhThuChart=document.getElementById("chart_DT_Thang");
+        var barChart=new Chart(DoanhThuChart,{
+            type:'bar',
+            data:{
+                labels:month,
+                datasets:[{
+                    label:'VNĐ',
+                    data:soLieu,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Doanh Thu Theo Tháng Của Năm '+@year,
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+
+        var SLTheoThang=@Html.Raw(Json.Encode(dao.SoLuongTheoThang()));
+        var SLChart=document.getElementById("chart_SL_Thang");
+        var barChart=new Chart(SLChart,{
+            type:'line',
+            data:{
+                labels:month,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:SLTheoThang,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Số Lượng Mô Hình Đã Bán Theo Tháng Của Năm '+@year,
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+
+        var nsxs=@Html.Raw(Json.Encode(dao.GetListNSX()));
+        var soLuongNSX=@Html.Raw(Json.Encode(dao.GetSLTheoNSX()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var SLMHChart=document.getElementById("chart_SL_NSX");
+        var barChart=new Chart(SLMHChart,{
+            type:'pie',
+            data:{
+                labels:nsxs,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:soLuongNSX,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)'
+                        //'rgba(248,216,97,0.6)',
+                        //'rgba(40,216,97,0.6)',
+                        //'rgba(40,31,97,0.6)',
+                        //'rgba(231,31,97,0.6)',
+                        //'rgba(231,251,97,0.6)',
+                        //'rgba(231,168,97,0.6)',
+                        //'rgba(231,168,252,0.6)',
+                        //'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Số Lượng Mô Hình Của Nhà Sản Xuất',
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+        var loais=@Html.Raw(Json.Encode(dao.GetListLoai()));
+        var soLuongLoai=@Html.Raw(Json.Encode(dao.GetSLTheoLoai()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var SLMHLChart=document.getElementById("chart_SL_Loai");
+        var barChart=new Chart(SLMHLChart,{
+            type:'doughnut',
+            data:{
+                labels:loais,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:soLuongLoai,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Số Lượng Mô Hình Theo Loại',
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+        var top10MH=@Html.Raw(Json.Encode(dao.GetListTop10SP()));
+        var soLieuTop10=@Html.Raw(Json.Encode(dao.GetSLTop10()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var Top10Chart=document.getElementById("chart_Top10");
+        var barChart=new Chart(Top10Chart,{
+            type:'horizontalBar',
+            data:{
+                labels:top10MH,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:soLieuTop10,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Top 10 Mô Hình bán Chạy',
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+
+        var top10NSX=@Html.Raw(Json.Encode(dao.GetListTop10NSX()));
+        var soLieuTop10NSX=@Html.Raw(Json.Encode(dao.GetSLTop10NSX()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var Top10NSXChart=document.getElementById("chart_Top10_NSX");
+        var barChart=new Chart(Top10NSXChart,{
+            type:'bar',
+            data:{
+                labels:top10NSX,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:soLieuTop10NSX,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Top 10 Nhà Sản Xuất Bán Chạy',
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+
+
+
+        var top10Loai=@Html.Raw(Json.Encode(dao.GetListTop10Loai()));
+        var soLieuTop10Loai=@Html.Raw(Json.Encode(dao.GetSLTop10Loai()));
+
+        Chart.defaults.global.defaultFontFamily="Lato";
+        Chart.defaults.global.defaultFontSize=15;
+        Chart.defaults.global.defaultFontColor="#777";
+
+        var Top10LoaiChart=document.getElementById("chart_Top10_Loai");
+        var barChart=new Chart(Top10LoaiChart,{
+            type:'bar',
+            data:{
+                labels:top10Loai,
+                datasets:[{
+                    label:'Số Lượng',
+                    data:soLieuTop10Loai,
+                    backgroundColor:[
+                        'rgba(255,99,132,0.6)',
+                        'rgba(255,0,0,0.6)',
+                        'rgba(169,158,0,0.6)',
+                        'rgba(169,158,229,0.6)',
+                        'rgba(248,216,97,0.6)',
+                        'rgba(40,216,97,0.6)',
+                        'rgba(40,31,97,0.6)',
+                        'rgba(231,31,97,0.6)',
+                        'rgba(231,251,97,0.6)',
+                        'rgba(231,168,97,0.6)',
+                        'rgba(231,168,252,0.6)',
+                        'rgba(25,20,252,0.6)'
+                    ],
+                    borderWidth:2,
+                    borderColor:'#777',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'#000'
+                }],
+            },
+            options:{
+                title:{
+                    display:true,
+                    text:'Top 10 Loại Mô Hình Bán Chạy',
+                    fontSize:25
+                },
+                legend:{
+
+                    labels:{
+                        fontColor:'#000'
+                    }
+                }
+            }
+        });
+    </script>
+    </body>
+</html>
